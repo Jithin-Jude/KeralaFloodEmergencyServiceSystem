@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap map) {
-        googleMap = map;}
+        googleMap = map;
+    }
 
     private boolean checkPermission() {
         return (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -144,8 +145,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         getHumidity(latitudeString, longitudeString);
         getElevation(latitudeString, longitudeString);
 
-        String stringLatitude = String.valueOf(latitudeString+", "+longitudeString);
-        textViewLocation.setText(stringLatitude);
+        String currentLocation = String.valueOf("Latitude : "+latitudeString+"\nLongitude : "+longitudeString);
+        textViewLocation.setText(currentLocation);
     }
 
     public void getHumidity(final String latitudeString, final String longitudeString) {

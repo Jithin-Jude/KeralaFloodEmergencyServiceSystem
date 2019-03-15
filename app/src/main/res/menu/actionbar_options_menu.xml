@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/option_1"
+        android:title="prediction method one" />
+    <item android:id="@+id/option_2"
+        android:title="prediction method two"/>
+    <item android:id="@+id/option_3"
+        android:title="prediction method three" />
+
+</menu>

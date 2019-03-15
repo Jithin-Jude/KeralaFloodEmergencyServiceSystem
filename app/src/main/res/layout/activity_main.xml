@@ -78,7 +78,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginBottom="88dp"
-                android:text="Refresh"
+                android:text="Am I safe?"
                 android:onClick="refreshButtonFunction"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

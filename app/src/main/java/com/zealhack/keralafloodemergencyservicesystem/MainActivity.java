@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.option_1:
+            case R.id.option_2:
                 Intent myIntent = new Intent(this, FloodedRoads.class);
                 this.startActivity(myIntent);
                 return true;
@@ -290,7 +290,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean checkFloodProbabilityStatus(int humidity, double elevation){
         if(humidity >= 80 && elevation < 7){
             return true;
-        }else {
+        }else if(elevation < 0){
+            return true;
+        }
+        else {
             return false;
         }
     }

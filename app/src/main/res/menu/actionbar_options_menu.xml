@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/option_1"
-        android:title="prediction method one" />
+        android:title="Flooded Roads" />
     <item android:id="@+id/option_2"
         android:title="prediction method two"/>
     <item android:id="@+id/option_3"

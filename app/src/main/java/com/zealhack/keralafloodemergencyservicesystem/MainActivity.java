@@ -3,6 +3,7 @@ package com.zealhack.keralafloodemergencyservicesystem;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -34,9 +38,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     GoogleMap googleMap;
 
     LocationTrack locationTrack;
+    String latitudeString;
+    String longitudeString;
 
     TextView textViewLocation;
     TextView textViewStatus;
+
+    Button helpLineButton;
 
     JSONObject data = null;
     JSONObject mainObject;
@@ -47,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     JSONObject dataElavationObject;
     double elevation;
 
+    public TextToSpeech tts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         textViewLocation = (TextView)findViewById(R.id.current_location);
         textViewStatus = (TextView)findViewById(R.id.flood_alert_status);
+
+        helpLineButton = findViewById(R.id.helpline_button);
+        helpLineButton.setEnabled(false);
 
         mapView = findViewById(R.id.map_view);
         mapView.onCreate(savedInstanceState);
@@ -121,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void refreshButtonFunction(View view){
+        helpLineButton.setEnabled(true);
 
         if(checkPermission())
             googleMap.setMyLocationEnabled(true);
@@ -139,14 +153,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 coordinate, 15);
         googleMap.animateCamera(location);
 
-        String latitudeString = String.valueOf(latitude);
-        String longitudeString = String.valueOf(longitude);
+        latitudeString = String.valueOf(latitude);
+        longitudeString = String.valueOf(longitude);
 
         getHumidity(latitudeString, longitudeString);
         getElevation(latitudeString, longitudeString);
 
         String currentLocation = String.valueOf("Latitude : "+latitudeString+"\nLongitude : "+longitudeString);
         textViewLocation.setText(currentLocation);
+    }
+
+    public void getHelpLineButtonFunction(View view){
+        Intent myIntent = new Intent(this, GetHelpActivity.class);
+        myIntent.putExtra("LATITUDE", latitudeString);
+        myIntent.putExtra("LONGITUDE", longitudeString);
+        //Toast.makeText(this,"altitude : "+locationTrack.getLongitude(), Toast.LENGTH_SHORT).show();
+        startActivity(myIntent);
     }
 
     public void getHumidity(final String latitudeString, final String longitudeString) {
@@ -280,9 +302,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d("my altitude received",String.valueOf(elevation));
 
                 if(checkFloodProbabilityStatus(Integer.parseInt(humidity), elevation)){
-                    textViewStatus.setText("Your location have a humidity of "+humidity+" g/m3 and altitude of "+elevation+" m , which may cause long lasting heavy rainfall. So there may be a probability of flood in your area.");
+                    String result = "Your location have a humidity of "+humidity+" g/m3 and altitude of "+elevation+" m , which may cause long lasting heavy rainfall. So there may be a probability of flood in your area.";
+                    textViewStatus.setText(result);
+                    SpeakToMe(result);
                 }else{
-                    textViewStatus.setText("Your location have a humidity of "+humidity+" g/m3 and altitude of "+elevation+" m , there won't be any heavy rainfall . So you are safe from flood.");
+                    String result = "Your location have a humidity of "+humidity+" g/m3 and altitude of "+elevation+" m , there won't be any heavy rainfall . So you are safe from flood.";
+                    textViewStatus.setText(result);
+                    SpeakToMe(result);
                 }
             }
         }.execute();
@@ -297,5 +323,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         else {
             return false;
         }
+    }
+
+    public void SpeakToMe(final String text){
+        tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status == TextToSpeech.SUCCESS) {
+                    tts.setLanguage(Locale.ENGLISH);
+                }else {
+                    Toast.makeText(getApplicationContext(), "language not supported !", Toast.LENGTH_SHORT).show();
+                }
+                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        });
     }
 }

@@ -20,7 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FloodedRoads"></activity>
+        <activity android:name=".ConnectVolunteersActivity"></activity>
+        <activity android:name=".GetHelpActivity" />
+        <activity android:name=".FloodedRoads" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

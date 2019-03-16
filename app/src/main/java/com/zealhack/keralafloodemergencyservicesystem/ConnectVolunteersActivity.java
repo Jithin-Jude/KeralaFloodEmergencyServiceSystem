@@ -58,6 +58,6 @@ public class ConnectVolunteersActivity extends AppCompatActivity {
             }
         });
 
-        browser.loadUrl("http://formykerala.in/");
+        browser.loadUrl("https://keralarescue.in/");
     }
 }

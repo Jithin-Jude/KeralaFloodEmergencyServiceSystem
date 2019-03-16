@@ -5,7 +5,5 @@
         android:title="Altitude-Humidity method" />
     <item android:id="@+id/option_2"
         android:title="Flooded Roads"/>
-    <item android:id="@+id/option_3"
-        android:title="prediction method three" />
 
 </menu>

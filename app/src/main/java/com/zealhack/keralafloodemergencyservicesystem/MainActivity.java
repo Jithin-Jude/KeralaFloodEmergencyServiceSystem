@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?lat="+latitudeString+"&lon="+longitudeString+"&APPID=ea574594b9d36ab688642d5fbeab847e");
+                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?lat="+latitudeString+"&lon="+longitudeString+"&APPID=API_KEY_HERE");
 
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL("https://maps.googleapis.com/maps/api/elevation/json?locations="+latitudeString+","+longitudeString+"&key=AIzaSyCpcX-lrVxsuZruEPmSq9dbhBdkB9ccu48");
+                    URL url = new URL("https://maps.googleapis.com/maps/api/elevation/json?locations="+latitudeString+","+longitudeString+"&key=API_KEY_HERE");
 
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
